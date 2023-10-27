@@ -1,13 +1,16 @@
 import pygame, sys
 from settings import *
+from level import Level
 
 
 class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-        self.clock = pygame.time.Clock()
         pygame.display.set_caption("Zelda: The Game of The Noobs")
+        self.clock = pygame.time.Clock()
+        self.level = Level()
+        
 
     def run(self):
         while True:
@@ -17,6 +20,7 @@ class Game:
                     sys.exit()
             
             self.screen.fill('black')
+            self.level.run()
             pygame.display.update()
             self.clock.tick(60)
 
