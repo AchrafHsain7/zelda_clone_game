@@ -46,9 +46,9 @@ class YSortCameraGroup(pygame.sprite.Group):
 
     def custom_draw(self, player):
         #getting the offset
-        self.offset.x = -player.rect.x + self.half_width
-        self.offset.y = -player.rect.y + self.half_height
+        self.offset.x = player.rect.x - self.half_width
+        self.offset.y = player.rect.y - self.half_height
 
-        for sprite in self.sprites():
-            offset_rect = sprite.rect.topleft + self.offset
+        for sprite in sorted(self.sprites(), key= lambda sprite: sprite.rect.centery):
+            offset_rect = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_rect)
