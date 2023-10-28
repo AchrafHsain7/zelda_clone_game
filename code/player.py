@@ -1,5 +1,4 @@
 import pygame
-from pygame.sprite import AbstractGroup
 from settings import *
 
 #This is a class that will be used to draw and create objects (rocks, trees,...)
