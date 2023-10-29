@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
 
         self.direction = pygame.math.Vector2()
         self.speed = 5
-        self.obstacle_sprtes = obstacle_sprites
+        self.obstacle_sprites = obstacle_sprites
 
 
     def input(self):
@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
 
     def collision(self, direction):
         if direction == 'horizental':
-            for sprite in self.obstacle_sprtes:
+            for sprite in self.obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.x > 0:
                         self.hitbox.right = sprite.hitbox.left
@@ -55,7 +55,7 @@ class Player(pygame.sprite.Sprite):
                         self.hitbox.left = sprite.hitbox.right
     
         if direction == 'vertical':
-            for sprite in self.obstacle_sprtes:
+            for sprite in self.obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.y > 0:
                         self.hitbox.bottom = sprite.hitbox.top
