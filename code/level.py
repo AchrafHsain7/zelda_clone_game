@@ -83,7 +83,7 @@ class Level:
                                 elif col == '392':  monster_name = 'raccoon' 
                                 else :  monster_name = 'squid'
                                 
-                                Enemy(monster_name, (x,y), [self.visible_sprites, self.attackable_sprites], self.obstacle_sprites, self.damage_player)
+                                Enemy(monster_name, (x,y), [self.visible_sprites, self.attackable_sprites], self.obstacle_sprites, self.damage_player, self.trigger_death_particle)
      
     def create_attack(self):
         self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
@@ -121,6 +121,8 @@ class Level:
             #create particles
             self.animation_player.create_particle(attack_type, self.player.rect.center, [self.visible_sprites])
 
+    def trigger_death_particle(self, pos, particle_type):
+        self.animation_player.create_particle(particle_type, pos, [self.visible_sprites])
 
     #update and draw the game
     def run(self):

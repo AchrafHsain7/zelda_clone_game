@@ -4,7 +4,7 @@ from support import import_folder
 from settings import *
 
 class Enemy(Entity):
-    def __init__(self,monster_name, pos, groups, obstacle_sprites, damage_player):
+    def __init__(self,monster_name, pos, groups, obstacle_sprites, damage_player, death_animation):
         super().__init__(groups)
         self.sprite_type = 'enemy'
         
@@ -40,6 +40,8 @@ class Enemy(Entity):
         self.vulnerable = False
         self.hit_time = 0
         self.hit_cooldown = 300
+
+        self.death_animation = death_animation
 
     def import_graphics(self, monster_name):
         self.animations = {'idle': [], 'move': [], 'attack': []}
@@ -120,6 +122,7 @@ class Enemy(Entity):
 
     def check_death(self):
         if self.health <= 0:
+            self.death_animation(self.rect.center, self.monster_name)
             self.kill()
 
     def hit_reaction(self):
