@@ -1,4 +1,5 @@
 import pygame
+from math import sin
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, groups):
@@ -19,7 +20,6 @@ class Entity(pygame.sprite.Sprite):
         #making the rect always follow the center of the hitbox
         self.rect.center = self.hitbox.center
 
-
     def collision(self, direction):
         if direction == 'horizental':
             for sprite in self.obstacle_sprites:
@@ -36,3 +36,11 @@ class Entity(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.hitbox.top
                     elif self.direction.y < 0:
                         self.hitbox.top = sprite.hitbox.bottom
+
+    def wave_value(self):
+        value = sin(pygame.time.get_ticks())
+        if value >= 0: return 255
+        else: return 0
+
+
+

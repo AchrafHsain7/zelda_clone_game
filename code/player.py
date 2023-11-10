@@ -24,6 +24,11 @@ class Player(Entity):
         self.attack_time = 0
         self.obstacle_sprites = obstacle_sprites
 
+        #iframes
+        self.vulnerable = False
+        self.hurt_time = 0
+        self.hurt_cooldown = 500
+
         #weapon
         self.create_attack = create_attack
         self.destroy_attack = destroy_attack
@@ -131,10 +136,15 @@ class Player(Entity):
             if 'attack' in self.status:
                 self.status = self.status.replace('_attack', '')
 
+    def get_full_damage(self):
+        base_damage = self.stats['attack']
+        weapon_damage = weapon_data[self.weapon]['damage']
+        return base_damage + weapon_damage 
+
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
         if self.attacking:
-            if current_time - self.attack_time >= self.attack_cooldown:
+            if current_time - self.attack_time >= self.attack_cooldown + weapon_data[self.weapon]['cooldown']:
                 self.attacking = False
                 self.destroy_attack()
         
@@ -145,6 +155,10 @@ class Player(Entity):
         if not self.can_switch_magic:
             if current_time - self.switch_magic_time >= self.switch_magic_cooldown:
                 self.can_switch_magic = True
+
+        if not self.vulnerable:
+            if current_time - self.hurt_time >= self.hurt_cooldown:
+                self.vulnerable = True
 
     def animate(self):
         animation = self.animations[self.status]
@@ -157,6 +171,13 @@ class Player(Entity):
         #seeting up the current animation image
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
+
+        #flicker when hit
+        if not self.vulnerable:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
 
     def update(self):
         self.input()
